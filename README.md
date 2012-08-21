@@ -4,7 +4,9 @@ AP Exchange crawler & fetcher.
 
 ## Usage ##
 
-...
+  pip install -r requirements.txt
+  cp config.yaml-dist config.yaml
+  python fetch.py -h
 
 ## Requirements ##
 
