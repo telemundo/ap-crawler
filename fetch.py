@@ -1,5 +1,5 @@
 """
-This modules crawls apexchange.com and fetches and saves all content from a stored search.
+This modules crawls the AP Exchange website and fetches content from a stored search.
 
 @author: Rodolfo Puig <Rodolfo.Puig@nbcuni.com>
 @copyright: Telemundo Digital Media
@@ -9,26 +9,31 @@ This modules crawls apexchange.com and fetches and saves all content from a stor
 import sys, os, re, time, json, requests, yaml
 from BeautifulSoup import BeautifulSoup
 from optparse import OptionParser
-from math import ceil
 
-def end_exec(options, records):
-    if options.verbosity >= 1 and not options.quiet:
-        print '[%s] NOTICE: downloaded %d records' % (time.strftime('%Y-%m-%d %H:%M:%S'), records)
-    sys.exit()
+parser = OptionParser(usage='usage: %prog [options] dest')
+parser.add_option("-v", action="count", dest="verbosity", default=0, help="increase output verbosity")
+parser.add_option("-q", "--quiet", action="store_true", dest="quiet", help="hide all output")
+parser.add_option("-c", "--config", dest="config", default="config.yaml", type="string", help="YAML configuration file (default: config.yaml)")
+parser.add_option("-f", "--format", dest="format", default="xml", type="string", help="type of content to fetch (default: XML)")
+parser.add_option("-l", "--limit", dest="records", default=10, type="int", help="number of records to fetch (default: 10)")
+parser.add_option("-p", "--pause", dest="pause", default=5, type="int", help="pause between page fetches (default: 5)")
+(options, args) = parser.parse_args()
 
-def load_config(parser, file):
-    fh = open(file)
+def load_config(filename):
+    ''' Loads and validates the configuration file data '''
+    fh = open(filename)
     config = yaml.load(fh)
     fh.close()
     if 'data' not in config:
-        parser.error('%s is missing the "data" tree root' % file)
+        parser.error('%s is missing the "data" tree root' % filename)
     if 'auth' not in config['data']:
-        parser.error('%s is missing the "data/auth" subtree' % file)
+        parser.error('%s is missing the "data/auth" subtree' % filename)
     if 'search' not in config['data']:
-        parser.error('%s is missing the "data/search" subtree' % file)
+        parser.error('%s is missing the "data/search" subtree' % filename)
+
     return config
 
-def mod_headers(args):
+def headers(args):
     ''' Adds the custom User-Agent to the request headers '''
     if args.get('headers') is None:
         args['headers'] = dict()
@@ -36,26 +41,24 @@ def mod_headers(args):
 
     return args
 
+def summarize(records):
+    ''' Outputs a summary of the last action and exits '''
+    if options.verbosity >= 1 and not options.quiet:
+        print '[%s] NOTICE: downloaded %d records' % (time.strftime('%Y-%m-%d %H:%M:%S'), records)
+
+    sys.exit()
+
 def main():
     ''' Main routine '''
-    parser = OptionParser(usage='usage: %prog [options] dest')
-    parser.add_option("-v", action="count", dest="verbosity", default=0, help="increase output verbosity")
-    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", help="hide all output")
-    parser.add_option("-l", "--limit", dest="records", default=25, type="int", help="number of records to fetch")
-    parser.add_option("-c", "--config", dest="config", default="config.yaml", type="string", help="YAML configuration file")
-    parser.add_option("-f", "--format", dest="format", default="xml", type="string", help="type of AP content to fetch")
-    parser.add_option("-p", "--pause", dest="pause", default=5, type="int", help="number of seconds to wait between page fetches")
-    (options, args) = parser.parse_args()
     if len(args) < 1:
         parser.error("you must specify the destination directory.")
     if not os.path.exists(options.config):
         parser.error("the configuration file %s does not exist." % options.config)
-    config = load_config(parser, options.config)
-    ''' Misc '''
     destination = args[0].rstrip('/')
     if not os.path.exists(destination):
         os.makedirs(destination)
-    hooks = dict(args=mod_headers)
+    config = load_config(parser, options.config)
+    hooks = dict(args=headers)
     files = []
     records = 0
     page = 0
@@ -135,12 +138,12 @@ def main():
                             if records == options.records:
                                 if options.verbosity >= 1 and not options.quiet:
                                     print '[%s] NOTICE: max number of records reached' % (time.strftime('%Y-%m-%d %H:%M:%S'))
-                                end_exec(options, records)
+                                summarize(records)
                         else:
                             if filename not in files:
                                 if options.verbosity >= 1 and not options.quiet:
                                     print '[%s] NOTICE: no newer records found' % (time.strftime('%Y-%m-%d %H:%M:%S'))
-                                end_exec(options, records)
+                                summarize(records)
             if options.verbosity >= 1 and not options.quiet:
                 print '[%s] NOTICE: sleeping for %d seconds' % (time.strftime('%Y-%m-%d %H:%M:%S'), options.pause)
             time.sleep(options.pause)
@@ -148,8 +151,8 @@ def main():
         else:
             if options.verbosity >= 1 and not options.quiet:
                 print '[%s] NOTICE: no more records found' % (time.strftime('%Y-%m-%d %H:%M:%S'))
-            end_exec(options, records)
-    end_exec(options, records)
+            summarize(records)
+    summarize(records)
 
 if __name__ == '__main__':
     main()

@@ -6,3 +6,7 @@ data:
   search:
     name: ""       # APExchange.com Search Title
     id:   0        # APExchange.com Search ID
+  ftp:
+    host: ""       # Destination FTP Host
+    user: ""       # Destination FTP Username
+    pass: ""       # Destination FTP Password
