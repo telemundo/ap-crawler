@@ -93,13 +93,11 @@ def main():
         searchdict = basedict
         if page == 0:
             searchdict['PageType'] = 'First'
-            #pagepayload['jsp'] = '{"FilterList":"","Entitlements":null,"Outings":null,"MatchReferences":[],"DontMatchReferences":[],"PageType":"First","SearchItem":"","SearchId":644248,"SelectedTopicID":0,"Links":"","Fields":"date,time,headline,slug","Rows":10,"SearchType":"SavedSearch","MediaType":"Text","UsePhotoArchive":false,"UsePressReleases":false,"UseExtendedEntitlements":false,"UseMatchRef":false,"SearchInterval":"TwoWeeks","SearchName":"Olympics","Profile":"","WithinItems":[],"GetCounts":false,"SortBy":"arrivaldatetime:numberdecreasing","DahStartState":null,"IsPrePublished":false,"AllowAllRelatedMedia":false,"IsMemberContentSearch":false,"SearchCommand":"OR","ParentTopicID":-1,"SearchOwnerID":"-1","APQLFilterList":"","IsMarketPlaceTopicSearch":false}'
         else:
             searchdict['PageType'] = 'Next'
             searchdict['StartRecord'] = (page * 10) + 1
             searchdict['Page'] = page + 1
             searchdict['NextPage'] = 1
-            #pagepayload['jsp'] = '{"FilterList":"","Entitlements":null,"Outings":null,"MatchReferences":[],"DontMatchReferences":[],"PageType":"Next","SearchItem":"","SearchId":644248,"SelectedTopicID":0,"Links":"","Fields":"date,time,headline,slug","Rows":10,"SearchType":"SavedSearch","MediaType":"Text","UsePhotoArchive":false,"UsePressReleases":false,"UseExtendedEntitlements":false,"UseMatchRef":false,"SearchInterval":"TwoWeeks","SearchName":"Olympics","Profile":"","WithinItems":[],"GetCounts":true,"SortBy":"arrivaldatetime:numberdecreasing","DahStartState":null,"IsPrePublished":false,"AllowAllRelatedMedia":false,"IsMemberContentSearch":false,"SearchCommand":"OR","ParentTopicID":-1,"SearchOwnerID":"-1","APQLFilterList":"","IsMarketPlaceTopicSearch":false,"StartRecord":%d,"Page":%d,"NextPage":1}' % ((page*10)+1, (page+1))
         pagepayload['jsp'] = json.dumps(searchdict)
         pagerequest = requests.get('http://www.apexchange.com/pages/portal.aspx', hooks=hooks, params=pagepayload, cookies=pagerequest.cookies)
         if options.verbosity >= 3 and not options.quiet:
