@@ -1,0 +1,8 @@
+# file: config.yaml
+data:
+  auth:
+    user: ""       # APExchange.com Username
+    pass: ""       # APExchange.com Password
+  search:
+    name: ""       # APExchange.com Search Title
+    id:   0        # APExchange.com Search ID
