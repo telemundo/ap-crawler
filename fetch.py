@@ -1,22 +1,22 @@
-"""
-This modules crawls the AP Exchange website and fetches content from a stored search.
+'''
+This module crawls the AP Exchange website and fetches content from a stored search.
 
 @author: Rodolfo Puig <Rodolfo.Puig@nbcuni.com>
 @copyright: Telemundo Digital Media
 @organization: NBCUniversal
-"""
+'''
 
 import sys, os, re, time, json, requests, yaml
 from BeautifulSoup import BeautifulSoup
 from optparse import OptionParser
 
 parser = OptionParser(usage='usage: %prog [options] dest')
-parser.add_option("-v", action="count", dest="verbosity", default=0, help="increase output verbosity")
-parser.add_option("-q", "--quiet", action="store_true", dest="quiet", help="hide all output")
-parser.add_option("-c", "--config", dest="config", default="config.yaml", type="string", help="YAML configuration file (default: config.yaml)")
-parser.add_option("-f", "--format", dest="format", default="xml", type="string", help="type of content to fetch (default: XML)")
-parser.add_option("-l", "--limit", dest="records", default=10, type="int", help="number of records to fetch (default: 10)")
-parser.add_option("-p", "--pause", dest="pause", default=5, type="int", help="pause between page fetches (default: 5)")
+parser.add_option('-v', action='count', dest='verbosity', default=0, help='increase output verbosity')
+parser.add_option('-q', '--quiet', action='store_true', dest='quiet', help='hide all output')
+parser.add_option('-c', '--config', dest='config', default='config.yaml', type='string', help='YAML configuration file (default: config.yaml)')
+parser.add_option('-f', '--format', dest='format', default='xml', type='string', help='type of content to fetch (default: XML)')
+parser.add_option('-l', '--limit', dest='records', default=10, type='int', help='number of records to fetch (default: 10)')
+parser.add_option('-p', '--pause', dest='pause', default=5, type='int', help='pause between page fetches (default: 5)')
 (options, args) = parser.parse_args()
 
 def load_config(filename):
@@ -51,9 +51,9 @@ def summarize(records):
 def main():
     ''' Main routine '''
     if len(args) < 1:
-        parser.error("you must specify the destination directory.")
+        parser.error('you must specify the destination directory.')
     if not os.path.exists(options.config):
-        parser.error("the configuration file %s does not exist." % options.config)
+        parser.error('the configuration file %s does not exist.' % options.config)
     destination = args[0].rstrip('/')
     if not os.path.exists(destination):
         os.makedirs(destination)
@@ -63,11 +63,11 @@ def main():
     records = 0
     page = 0
     basedict = {
-        "FilterList": "", "Entitlements": None, "Outings": None, "MatchReferences": [], "DontMatchReferences": [], "SelectedTopicID": 0, "Links": "", "Fields": "date,time,headline,slug",
-        "Rows": 10, "MediaType": "Text", "UsePhotoArchive": False, "UsePressReleases": False, "UseExtendedEntitlements": False, "UseMatchRef": False, "SearchInterval": "TwoWeeks",
-        "Profile": "", "WithinItems": [], "GetCounts": False, "SortBy": "arrivaldatetime:numberdecreasing", "DahStartState": None, "IsPrePublished": False, "AllowAllRelatedMedia": False,
-        "IsMemberContentSearch": False, "SearchCommand": "OR", "ParentTopicID": -1, "SearchOwnerID": -1, "APQLFilterList": "", "IsMarketPlaceTopicSearch": False, "SearchType": "SavedSearch",
-        "SearchItem": "", "SearchName": config['data']['search']['name'], "SearchId": config['data']['search']['id']
+        'FilterList': '', 'Entitlements': None, 'Outings': None, 'MatchReferences': [], 'DontMatchReferences': [], 'SelectedTopicID': 0, 'Links': '', 'Fields': 'date,time,headline,slug',
+        'Rows': 10, 'MediaType': 'Text', 'UsePhotoArchive': False, 'UsePressReleases': False, 'UseExtendedEntitlements': False, 'UseMatchRef': False, 'SearchInterval': 'TwoWeeks',
+        'Profile': '', 'WithinItems': [], 'GetCounts': False, 'SortBy': 'arrivaldatetime:numberdecreasing', 'DahStartState': None, 'IsPrePublished': False, 'AllowAllRelatedMedia': False,
+        'IsMemberContentSearch': False, 'SearchCommand': 'OR', 'ParentTopicID': -1, 'SearchOwnerID': -1, 'APQLFilterList': '', 'IsMarketPlaceTopicSearch': False, 'SearchType': 'SavedSearch',
+        'SearchItem': '', 'SearchName': config['data']['search']['name'], 'SearchId': config['data']['search']['id']
     }
     ''' Step 1: Create the initial session '''
     initialrequest = requests.get('http://www.apexchange.com/login.aspx', hooks=hooks);
