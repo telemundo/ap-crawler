@@ -1,6 +1,6 @@
 # AP Crawler #
 
-AP Exchange crawler & fetcher.
+Crawls and fetches content from the AP Exchange website.
 
 ## Usage ##
 
@@ -10,9 +10,9 @@ AP Exchange crawler & fetcher.
 
 ## Requirements ##
 
-- BeautifulSoup
-- requests
-- PyYAML
+- BeautifulSoup 3.2.1
+- requests 0.13.8
+- PyYAML 3.10
 
 ## Submitting bugs and feature requests ##
 
