@@ -1,3 +1,3 @@
-BeautifulSoup
-requests
-PyYAML
+BeautifulSoup==3.2.1
+requests==0.13.8
+PyYAML==3.10
