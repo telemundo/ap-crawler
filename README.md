@@ -1,27 +1,27 @@
-# AP Crawler #
+# AP Crawler
 
 Crawls and fetches content from the AP Exchange website.
 
-## Usage ##
+## Usage
 
     pip install -r requirements.txt
     cp config.yaml-dist config.yaml
     python fetch.py -h
 
-## Requirements ##
+## Requirements
 
-- BeautifulSoup 3.2.1
-- requests 0.13.8
-- PyYAML 3.10
+- [BeautifulSoup](http://pypi.python.org/pypi/BeautifulSoup)
+- [requests](http://pypi.python.org/pypi/requests)
+- [PyYAML](http://pypi.python.org/pypi/PyYAML)
 
-## Submitting bugs and feature requests ##
+## Submitting bugs and feature requests
 
-Bugs and feature request are tracked on [GitHub](https://github.com/telemundo/ap-crawler/issues)
+Bugs and feature request are tracked on [GitHub](https://github.com/telemundo/ap-crawler/issues).
 
-## Author ##
+## Author
 
-Rodolfo Puig - <rodolfo.puig@nbcuni.com> - <https://twitter.com/rpuig_nbcuni><br />
+Rodolfo Puig - <rodolfo.puig@nbcuni.com> - [@rpuig_nbcuni](https://twitter.com/rpuig_nbcuni)
 
-## License ##
+## License
 
-AP Crawler is licensed under the MIT License - see the LICENSE file for details
+This package is licensed under the MIT License - see the LICENSE file for details.
