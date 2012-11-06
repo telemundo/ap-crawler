@@ -1,10 +1,5 @@
-'''
-This module crawls the AP Exchange website and fetches content from a stored search.
-
-@author: Rodolfo Puig <Rodolfo.Puig@nbcuni.com>
-@copyright: Telemundo Digital Media
-@organization: NBCUniversal
-'''
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys, os, re, time, json, requests, yaml
 from BeautifulSoup import BeautifulSoup
