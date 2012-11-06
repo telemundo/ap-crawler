@@ -1,5 +1,10 @@
+# OS X
 .DS_Store
+
+# Eclipse
 .project
 .pydevproject
 .settings/
+
+# Other
 config.yaml
