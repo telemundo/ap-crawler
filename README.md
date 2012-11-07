@@ -6,7 +6,7 @@ Crawls and fetches content from the AP Exchange website.
 
     pip install -r requirements.txt
     cp config.yaml-dist config.yaml
-    python fetch.py -h
+    python module.py -h
 
 ## Requirements
 
